@@ -48,4 +48,69 @@ int login(void)
 //end of login function
 
 //2-Load function
+void load_accounts(void)
+{
+    FILE *loadptr=fopen("accounts.txt","r");
+    if(loadptr==NULL)
+    {
+        printf("error: accounts.txt not found!\n");
+        return ;
+    }
 
+    char*token;
+    char information[300];
+    account_count=0;
+    while(fgets(information,300,loadptr)!=EOF)
+    {
+        Account *temp =(Account*)realloc(accounts,(account_count+1)*sizeof(Account));
+        if(temp==NULL)
+        {
+            printf("Memory Allocation failed\n");
+            exit(1);
+        }
+        accounts=temp;
+
+        //account number
+        token=strtok(information,",");
+        if(token!=NULL)strcpy(accounts[account_count].account_number,token);
+
+        //name
+        token=strtok(NULL,",");
+        if(token!=NULL)strcpy(accounts[account_count].name,token);
+
+        //Email
+        token=strtok(NULL,",");
+        if(token!=NULL)strcpy(accounts[account_count].email,token);
+
+        //Balance
+        token=strtok(NULL,",");
+        if(token!=NULL)accounts[account_count].balance=atof(token);
+
+        //Mobile
+        token=strtok(NULL,",");
+        if(token!=NULL)strcpy(accounts[account_count].mobile,token);
+
+        //month
+        token=strtok(NULL,"-");
+        if(token!=NULL)accounts[account_count].date_opened.month=atoi(token);
+
+        //year
+        token=strtok(NULL,",");
+        if(token!=NULL)accounts[account_count].date_opened.year=atoi(token);
+
+        //status
+        token=strtok(NULL,",");
+        if(token!=NULL && strstr(token,"active")!=NULL)
+        {
+            accounts[account_count].status=1;
+        }
+        else
+        {
+            accounts[account_count].status=0;
+        }
+        account_count++;
+    }
+
+    fclose(loadptr);
+    printf("System loaded %d accounts successfully\n",account_count);
+}
