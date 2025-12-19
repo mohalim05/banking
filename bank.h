@@ -45,8 +45,9 @@ int login(void);
 void load_accounts(void);
 void save_accounts(void);
 void quit_system(void);
-int validate_number(const char *str); // Helper to check if string contains digits only
-int validate_email(const char *email);
+int validate_number(char *str); // Helper to check if string contains digits only
+int validate_email( char *email);
+int validate_account_number(char *str);
 
 // Module 2: Account Management
 void add_account(void);

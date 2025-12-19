@@ -208,3 +208,44 @@ else{
 }
 printf("=================================\n");
 }
+
+
+
+
+void advanced_search(void){
+printf("\n=============================\n");
+printf("      ADVANCED SEARCH             ");
+printf("\n=============================\n");
+printf("Enter keyword to search: ");
+char keyword[50];
+getchar();
+fgets(keyword,50,stdin);
+keyword[strcspn(keyword,"\n")]='\0';
+int search_count=0;
+char *month[]={"","January","February","March"
+,"April","May","June"
+,"July","August","September"
+,"October","November","December"};
+int i;
+printf("\n=============================\n");
+printf("\n       Search results        \n");
+printf("\n=============================\n");
+for(i=0;i<account_count;i++){
+    if(strstr(accounts[i].name,keyword)!=NULL){
+        search_count++;
+printf("Account number: %s\n",accounts[i].account_number);
+   printf("Name: %s\n",accounts[i].name);
+   printf("E-mail: %s\n",accounts[i].email);
+   printf("Balance: %.2f $\n",accounts[i].balance);
+    printf("Mobile: %s\n",accounts[i].mobile);
+    printf("Date opened: %s %d\n",month[accounts[i].date_opened.month],accounts[i].date_opened.year);
+    printf("Status: %s\n",(accounts[i].status==1)?"active":"inactive");
+    printf("\n");
+    }
+}
+if(search_count==0){
+    printf("no matches found for key word %s\n",keyword);
+}
+printf("=================================\n");
+}
+

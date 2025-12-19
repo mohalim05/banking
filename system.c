@@ -168,3 +168,32 @@ void save_accounts(void)
     fclose(saveptr);
     printf("Accounts saved successfully\n");
 }
+
+int validate_account_number(char *str)
+{
+    if(str==NULL||*str=='\0'||strlen(str)!=10)
+        return 0;
+
+    while(*str)
+    {
+        if(*str<'0'||*str>'9')
+            return 0;
+        str++;
+    }
+
+    return 1;
+}
+int validate_number(char *str)
+{
+    if(str==NULL||*str=='\0')
+        return 0;
+
+    while(*str)
+    {
+        if(*str<'0'||*str>'9')
+            return 0;
+        str++;
+    }
+
+    return 1;
+}
