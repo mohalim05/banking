@@ -155,3 +155,56 @@ else{
 }
 printf("=================================\n");
 }
+
+///////////////////////////////////////////
+void delete_account(){
+printf("\n=============================\n");
+printf("      DELETE ACCOUNT             ");
+printf("\n=============================\n");
+ int dt_ind=-1;
+char id[50];
+printf("Enter account number to delete: ");
+scanf("%49s",id);
+int i;
+for(i=0;i<account_count;i++){
+
+    if(strcmp(accounts[i].account_number,id)==0){
+        dt_ind=i;
+        break;
+    }
+
+}
+if(dt_ind==-1)
+{
+    printf("Error: Account number %s not found\n",id);
+    return;
+
+}
+if(accounts[dt_ind].balance>0.0){
+    printf("error : Account has balance :%.2f $\n",accounts[dt_ind].balance);
+    printf("only Accounts with 0.00 balance can be deleted\n");
+return;
+}
+printf("Account found : [name: %s]",accounts[dt_ind].name);
+printf("\nAre you sure you want to delete this account? (y/n): ");
+char inputchoice;
+scanf(" %c",&inputchoice);
+if(inputchoice=='y'||inputchoice=='Y'){
+
+    for(i=dt_ind;i<account_count-1;i++){
+        accounts[i]=accounts[i+1];
+    }
+    account_count--;
+   Account *tempdata=realloc(accounts,account_count*sizeof(Account));
+   if(tempdata!=NULL||account_count==0){
+    accounts=tempdata;
+
+    }
+    save_accounts();
+    printf("\nAccount deleted successfully\n");
+}
+else{
+   printf("\nCancelled operation\n");
+}
+printf("=================================\n");
+}
