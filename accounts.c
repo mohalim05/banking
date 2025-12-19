@@ -79,16 +79,79 @@ save_accounts();
 printf("\nData saved successfully\n");
 }
 else{
-    printf("Cancelled operation\n");
-    printf("for EXIT press ( 1 )| to Back to menu press( 2 )\n");
-    int choice=2;
-scanf("%d",&choice);
-if(choice==1){
-    quit_system();
-}
-else{
-   return;
+    printf("\nCancelled operation\n");}
+
+printf("=================================\n");
 }
 
+
+void change_status(void){
+    printf("\n=============================\n");
+    printf("      MODIFY ACCOUNT STATUS        ");
+    printf("\n=============================\n");
+int temp_status;
+ int ind=-1;
+char id[50];
+printf("Enter account number: ");
+scanf("%49s",id);
+int i;
+for(i=0;i<account_count;i++){
+
+    if(strcmp(accounts[i].account_number,id)==0){
+        ind=i;
+        break;
+    }
+
 }
+if(ind==-1)
+{
+    printf("Error: Account number %s not found\n",id);
+    return;
+
+}
+char status[10];
+if(accounts[ind].status==1){
+    strcpy(status,"active");
+}else {
+strcpy(status,"inactive");
+
+}
+printf("\n=============================\n");
+printf("      CURRENT STATUS  [%s]      ",status);
+printf("\n=============================\n");
+printf("choose new status:\n[1]Activate\n[2]Deactivate\n");
+int choice;
+
+printf("Enter your choice: ");
+scanf(" %d",&choice);
+while(choice!=1&&choice!=2){
+
+printf("\nPlease Enter [1] or [2]: ");
+scanf(" %d",&choice);
+
+}
+if(accounts[ind].status==1&&choice==1||accounts[ind].status==0&&choice==2){
+    printf("The account is already in this status!\n");
+    return;
+}
+if(choice==1){
+    temp_status=1;
+
+}
+else if(choice==2){
+    temp_status=0;
+}
+printf("Are you sure you want to save changes (y/n)?: ");
+char flag;
+scanf(" %c",&flag);
+if(flag=='y'||flag=='Y'){
+   accounts[ind].status=temp_status;
+   save_accounts();
+    printf("\nStatus updated: %s --> %s \n",status,(choice==1)?"active":"inactive");
+
+}
+else{
+    printf("\nCancelled operation\n");
+}
+printf("=================================\n");
 }
