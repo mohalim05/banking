@@ -54,6 +54,7 @@ void add_account(void);
 void modify_account(void);
 void delete_account(void);
 void change_status(void);
+Date getCurrentDate(void);
 void delete_multiple_accounts(void); // Bonus Task
 
 // Module 3: Financial Operations
@@ -62,6 +63,7 @@ void deposit(void);
 void transfer(void);
 void print_report(void);
 double get_daily_withdrawal_sum(const char *accNum);
+void get_today(Date *d);
 
 // Module 4: Operations & UI
 void query_search(void);
@@ -70,8 +72,8 @@ void print_sorted_accounts(void);
 
 // Internal Sorting Helpers
 void sortByName(void);
-void SortByDate(void);
-void SortByBalance(void);
+void sortByDate(void);
+void sortByBalance(void);
 void sortByStatus(void);
 
 #endif // End of Header Guard

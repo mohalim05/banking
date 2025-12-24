@@ -140,8 +140,6 @@ void load_accounts(void)
 
 //save accounts
 
-#include <stdio.h>
-#include <stdlib.h>
 void save_accounts(void)
 {
     FILE *saveptr = fopen("accounts.txt", "w");
@@ -196,4 +194,57 @@ int validate_number(char *str)
     }
 
     return 1;
+}
+int validate_email(char *email)
+{
+    char *at;
+    char *dot;
+
+    if(email==NULL||*email=='\0')
+    {
+        return 0;
+    }
+
+    if(strchr(email,' ')!=NULL)
+    {
+        return 0;
+    }
+
+    at=strchr(email,'@');
+    if(at==NULL||at==email)
+    {
+        return 0;
+    }
+
+    dot=strchr(at+1,'.');
+    if(dot==NULL||*(dot+1)=='\0')
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+
+void print(void) {
+    char *month[] = {"", "January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December"};
+    int i;
+
+    if (account_count == 0) {
+        printf("\nNo accounts to display.\n");
+        return;
+    }
+
+    for (i = 0; i < account_count; i++) {
+        printf("\n---------------------------------\n");
+        printf("Account Number: %s\n", accounts[i].account_number);
+        printf("Name: %s\n", accounts[i].name);
+        printf("E-mail: %s\n", accounts[i].email);
+        printf("Balance: %.2f $\n", accounts[i].balance);
+        printf("Mobile: %s\n", accounts[i].mobile);
+        printf("Date Opened: %s %d\n", month[accounts[i].date_opened.month], accounts[i].date_opened.year);
+        printf("Status: %s\n", (accounts[i].status == 1) ? "Active" : "Inactive");
+    }
+    printf("---------------------------------\n");
 }
