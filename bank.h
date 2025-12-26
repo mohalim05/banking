@@ -1,4 +1,3 @@
-// Header Guard: Prevents the file from being included multiple times
 #ifndef BANK_H
 #define BANK_H
 
@@ -6,58 +5,51 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <time.h> // for date operations
+#include <time.h>
 
-// ==========================================
-// 1. Structure Definitions
-// ==========================================
 
-// Date Structure
 typedef struct {
     int year, month, day;
 } Date;
 
-// Bank Account Structure
+
 typedef struct {
-    char account_number[50]; //stored as a string to handle leading zeros
-    char name[100]; //client name
-    char mobile[20]; //mobile number
-    char email[100]; //client email
-    double balance; //Account balance
-    Date date_opened; //Date the account was opened
-    int status; // Active=1 , Inactive=0
+    char account_number[50];
+    char name[100];
+    char mobile[20];
+    char email[100];
+    double balance;
+    Date date_opened;
+    int status;
 } Account;
 
-// ==========================================
-// 2. Global Variables
-// ==========================================
 
-// 'extern' allows these variables to be accessed by all files
-extern Account *accounts; // Pointer for Dynamic Array to store all accounts
-extern int account_count; // Counter for the current number of accounts
+extern Account *accounts;
+extern int account_count;
 
-// ==========================================
-// 3. Function Prototypes
-// ==========================================
 
-// Module 1: System Core
+// Function Prototypes
+
+
+//System
 int login(void);
+void menu(void);
 void load_accounts(void);
 void save_accounts(void);
 void quit_system(void);
-int validate_number(char *str); // Helper to check if string contains digits only
+int validate_number(char *str);
 int validate_email( char *email);
 int validate_account_number(char *str);
 
-// Module 2: Account Management
+//Account Management
 void add_account(void);
 void modify_account(void);
 void delete_account(void);
 void change_status(void);
 Date getCurrentDate(void);
-void delete_multiple_accounts(void); // Bonus Task
+void delete_multiple_accounts(void);
 
-// Module 3: Financial Operations
+//Financial
 void withdraw(void);
 void deposit(void);
 void transfer(void);
@@ -65,15 +57,15 @@ void print_report(void);
 double get_daily_withdrawal_sum(const char *accNum);
 void get_today(Date *d);
 
-// Module 4: Operations & UI
+//Operations
 void query_search(void);
 void advanced_search(void);
 void print_sorted_accounts(void);
 
-// Internal Sorting Helpers
+//sort functions
 void sortByName(void);
 void sortByDate(void);
 void sortByBalance(void);
 void sortByStatus(void);
 
-#endif // End of Header Guard
+#endif

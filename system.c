@@ -23,10 +23,8 @@ int login(void)
     printf("password: ");
     fgets(password,sizeof(password),stdin);
     password[strcspn(password,"\n")]='\0';
-    //read file line by line and search
     while(fscanf(userptr,"%s %s",fileUSer,filePass)!=EOF)
     {
-        //compare inputs with file data
         if(strcmp(username,fileUSer)==0&&strcmp(password,filePass)==0)
         {
             found=1;
@@ -46,7 +44,6 @@ int login(void)
         return 0;
     }
 }
-//end of login function
 
 void menu(void) {
     void (*options[])(void) = {
@@ -100,7 +97,6 @@ void menu(void) {
             (*options[choice])();
             if (choice!=12) {
                 printf("\n-----------------------------------------\n");
-                // التعديل هنا: السؤال بوضوح عن الرجوع أو الخروج
                 printf("Do you want to go back to the menu or exit? (y: Menu / n: Exit): ");
                 scanf(" %c",&go_back);
                 while(getchar()!='\n');
@@ -132,7 +128,8 @@ void quit_system(void)
     printf("logged out\n");
     exit(0);
 }
-//2-Load function
+
+
 void load_accounts(void)
 {
     FILE *loadptr=fopen("accounts.txt","r");
@@ -205,7 +202,7 @@ void load_accounts(void)
     printf("System loaded %d accounts successfully\n",account_count);
 }
 
-//save accounts
+
 
 void save_accounts(void)
 {
