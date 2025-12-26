@@ -12,7 +12,7 @@ void get_today(Date *d){
 
 double get_daily_withdrawal_sum(const char *accNum){
     FILE *f;
-    char name_file[50];
+    char name_file[100];
     sprintf(name_file,"%s.txt",accNum);
 
     f=fopen(name_file,"r");
@@ -64,17 +64,21 @@ void withdraw(void){
 
     double amount;
     double sum_today=get_daily_withdrawal_sum(accounts[i].account_number);
-
-    do {
+    while (1) {
         printf("<<<Enter amount>>>\n");
-        scanf("%lf",&amount);
-        getchar();
-        if(amount>10000)
-            printf("Note: Maximum withdrawal limit is 10,000$ per transaction.\n");
-        else if(amount<=0)
-            printf("Error: Amount must be positive.\n");
-    } while(amount>10000 || amount<=0);
-
+        if (scanf("%lf", &amount) != 1) {
+            while (getchar() != '\n');
+            printf("Error: Invalid input. Please enter numbers only.\n");
+        } else {
+            getchar();
+            if (amount > 10000)
+                printf("Note: Maximum withdrawal limit is 10,000$ per transaction.\n");
+            else if (amount <= 0)
+                printf("Error: Amount must be positive.\n");
+            else
+                break;
+        }
+    }
     if(sum_today+amount>50000){
         printf("Daily withdrawal limit reached (50,000$).\n");
         return;
@@ -102,7 +106,7 @@ void withdraw(void){
         get_today(&today);
 
         FILE *f;
-        char name_file[50];
+        char name_file[100];
         char *accNum=accounts[i].account_number;
 
         sprintf(name_file,"%s.txt",accNum);
@@ -145,15 +149,21 @@ void deposit(void){
     }
 
     double amount=0;
-    do {
+    while (1) {
         printf("<<<Enter amount>>>\n");
-        scanf("%lf",&amount);
-        getchar();
-        if(amount>10000)
-            printf("Note: Maximum deposit limit is 10,000$ per transaction.\n");
-        else if(amount<=0)
-            printf("Error: Amount must be positive.\n");
-    } while(amount>10000 || amount<=0);
+        if (scanf("%lf", &amount) != 1) {
+            while (getchar() != '\n');
+            printf("Error: Invalid input. Please enter numbers only.\n");
+        } else {
+            getchar();
+            if (amount > 10000)
+                printf("Note: Maximum deposit limit is 10,000$ per transaction.\n");
+            else if (amount <= 0)
+                printf("Error: Amount must be positive.\n");
+            else
+                break;
+        }
+    }
 
     char save;
     do{
@@ -172,7 +182,7 @@ void deposit(void){
         get_today(&today);
 
         FILE *f;
-        char name_file[50];
+        char name_file[100];
         char *accNum=accounts[i].account_number;
         sprintf(name_file,"%s.txt",accNum);
         f=fopen(name_file,"a");
@@ -237,14 +247,20 @@ void transfer(void){
 
     double amount;
     printf("<<<Enter amount>>>\n");
-    scanf("%lf",&amount);
-    getchar();
 
-    if(amount <= 0) {
-        printf("Error: Amount must be positive.\n");
-        return;
+    while (1) {
+        if (scanf("%lf", &amount) != 1) {
+            while (getchar() != '\n');
+            printf("Invalid input. Please enter a valid amount: ");
+        } else {
+            getchar();
+            if (amount <= 0) {
+                printf("Error: Amount must be positive Enter again: ");
+            } else {
+                break;
+            }
+        }
     }
-
     if(accounts[i].balance<amount){
         printf("Your balance is insufficient to complete the transfer.\n");
         return;
@@ -270,8 +286,8 @@ void transfer(void){
         FILE *f1;
         FILE *f2;
 
-        char name_file1[50];
-        char name_file2[50];
+        char name_file1[100];
+        char name_file2[100];
         char *accNum1=accounts[i].account_number;
         char *accNum2=accounts[j].account_number;
 
@@ -320,7 +336,7 @@ void print_report(void){
     }
 
     FILE *f;
-    char name_file[50];
+    char name_file[100];
     char *accNum=accounts[i].account_number;
     sprintf(name_file,"%s.txt",accNum);
     f=fopen(name_file,"r");

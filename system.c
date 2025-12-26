@@ -37,7 +37,7 @@ int login(void)
     fclose(userptr);
     if(found)
     {
-        printf("\nLogin Successful welcome %s\n",username);
+        printf("\nLogin Successfully welcome %s\n",username);
         return 1;
     }
     else
@@ -48,6 +48,72 @@ int login(void)
 }
 //end of login function
 
+void menu(void) {
+    void (*options[])(void) = {
+        NULL,
+        add_account,
+        delete_account,
+        modify_account,
+        query_search,
+        advanced_search,
+        change_status,
+        withdraw,
+        deposit,
+        transfer,
+        print_report,
+        print_sorted_accounts,
+        quit_system,
+        delete_multiple_accounts
+    };
+
+    int choice;
+    char go_back;
+
+    while (1) {
+        printf("\n=========================================\n");
+        printf("       BANK MANAGEMENT SYSTEM\n");
+        printf("=========================================\n");
+        printf("[1] ADD New Account\n");
+        printf("[2] DELETE Account\n");
+        printf("[3] MODIFY Account\n");
+        printf("[4] SEARCH (Query)\n");
+        printf("[5] ADVANCED SEARCH\n");
+        printf("[6] CHANGE STATUS\n");
+        printf("[7] WITHDRAW\n");
+        printf("[8] DEPOSIT\n");
+        printf("[9] TRANSFER\n");
+        printf("[10] REPORT\n");
+        printf("[11] PRINT Sorted Accounts\n");
+        printf("[12] QUIT\n");
+        printf("[13] Delete Multiple\n");
+        printf("=========================================\n");
+        printf("Enter your choice: ");
+
+        if (scanf("%d",&choice)!=1) {
+            while(getchar()!='\n');
+            choice=0;
+        } else {
+            getchar();
+        }
+
+        if (choice>=1&&choice<=13) {
+            (*options[choice])();
+            if (choice!=12) {
+                printf("\n-----------------------------------------\n");
+                // التعديل هنا: السؤال بوضوح عن الرجوع أو الخروج
+                printf("Do you want to go back to the menu or exit? (y: Menu / n: Exit): ");
+                scanf(" %c",&go_back);
+                while(getchar()!='\n');
+
+                if (go_back=='n' || go_back=='N') {
+                    quit_system();
+                }
+            }
+        } else {
+            printf("Invalid choice! Please select 1-13\n");
+        }
+    }
+}
 void quit_system(void)
 {
     printf("\nSaving...\n");
@@ -120,6 +186,7 @@ void load_accounts(void)
         //year
         token=strtok(NULL,",");
         if(token!=NULL)accounts[account_count].date_opened.year=atoi(token);
+        accounts[account_count].date_opened.day = 1;
 
         //status
         token=strtok(NULL,",");

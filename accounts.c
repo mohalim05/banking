@@ -138,13 +138,19 @@ void change_status(void)
     int choice;
 
     printf("Enter your choice: ");
-    scanf(" %d",&choice);
-    while(choice!=1&&choice!=2)
-    {
+    while(1) {
+        if(scanf("%d",&choice)!=1) {
 
-        printf("\nPlease Enter [1] or [2]: ");
-        scanf(" %d",&choice);
-
+            while(getchar()!='\n');
+            printf("Invalid input! Please Enter [1] or [2]: ");
+        } else {
+            getchar();
+            if(choice==1||choice==2) {
+                break;
+            } else{
+                printf("Please Enter [1] or [2]: ");
+            }
+        }
     }
     if(accounts[ind].status==1&&choice==1||accounts[ind].status==0&&choice==2)
     {
@@ -248,7 +254,6 @@ void advanced_search(void)
     printf("\n=============================\n");
     printf("Enter keyword to search: ");
     char keyword[50];
-    getchar();
     fgets(keyword,50,stdin);
     keyword[strcspn(keyword,"\n")]='\0';
     int search_count=0;
@@ -308,8 +313,6 @@ void query_search(void)
     printf("\n=============================\n");
     printf("Please enter an account number: ");
 
-    getchar();
-
     while (1)
     {
         if (!fgets(Acnum, sizeof(Acnum), stdin)) return;
@@ -353,8 +356,6 @@ void add_account(void)
     printf("\n=============================\n");
     printf("       ADD NEW ACCOUNT       ");
     printf("\n=============================\n");
-
-    getchar();
 
     printf("Please enter account name: ");
     char acname[100];
@@ -566,4 +567,10 @@ void print_sorted_accounts(void) {
     print();
 
     printf("=================================\n");
+}
+
+
+void delete_multiple_accounts(void){
+
+printf("3la 7sb\n");
 }
