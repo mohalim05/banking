@@ -115,7 +115,15 @@ void withdraw(void){
             fprintf(f,"withdraw,%.2f,%04d-%02d-%02d\n",amount,today.year,today.month,today.day);
             fclose(f);
         }
-        printf("Transaction successful.\n");
+        printf("\n");
+        printf("\033[32m");
+        printf("=========================================\n");
+        printf("      TRANSACTION SUCCESSFUL!            \n");
+        printf("=========================================\n");
+        printf("\033[0m");
+        printf("Amount       : %.2f $\n",amount);
+        printf("New Balance  : %.2f $\n",accounts[i].balance);
+        printf("=========================================\n");
     } else {
         printf("Transaction cancelled.\n");
     }
@@ -190,7 +198,15 @@ void deposit(void){
             fprintf(f,"deposit,%.2f,%04d-%02d-%02d\n",amount,today.year,today.month,today.day);
             fclose(f);
         }
-        printf("Transaction successful.\n");
+        printf("\n");
+        printf("\033[32m");
+        printf("=========================================\n");
+        printf("      TRANSACTION SUCCESSFUL!            \n");
+        printf("=========================================\n");
+        printf("\033[0m");
+        printf("Amount       : %.2f $\n",amount);
+        printf("New Balance  : %.2f $\n",accounts[i].balance);
+        printf("=========================================\n");
     } else {
         printf("Transaction cancelled.\n");
     }
@@ -307,7 +323,9 @@ void transfer(void){
             fclose(f2);
         }
 
+        printf("\033[32m");
         printf("Transaction completed successfully.\n");
+        printf("\033[0m");
     } else {
         printf("Transaction cancelled.\n");
     }

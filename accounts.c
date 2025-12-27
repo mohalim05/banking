@@ -83,7 +83,9 @@ void modify_account(void)
         strcpy(accounts[index].mobile,temp_mobile);
         strcpy(accounts[index].email,temp_email);
         save_accounts();
+        printf("\033[32m");
         printf("\nData saved successfully\n");
+        printf("\033[0m");
     }
     else
     {
@@ -173,8 +175,9 @@ void change_status(void)
     {
         accounts[ind].status=temp_status;
         save_accounts();
+        printf("\033[32m");
         printf("\nStatus updated: %s --> %s \n",status,(choice==1)?"active":"inactive");
-
+        printf("\033[0m");
     }
     else
     {
@@ -235,7 +238,9 @@ void delete_account()
 
         }
         save_accounts();
+        printf("\033[32m");
         printf("\nAccount deleted successfully\n");
+        printf("\033[0m");
     }
     else
     {
@@ -263,9 +268,12 @@ void advanced_search(void)
                     ,"October","November","December"
                    };
     int i;
+    printf("\033[32m");
+
     printf("\n=============================\n");
     printf("\n       Search results        \n");
     printf("\n=============================\n");
+     printf("\033[0m");
     for(i=0; i<account_count; i++)
     {
         if(strstr(accounts[i].name,keyword)!=NULL)
@@ -559,18 +567,125 @@ void print_sorted_accounts(void) {
     } else if (choice == 4) {
         sortByStatus();
     }
+    printf("\033[32m");
 
     printf("\n=============================\n");
     printf("     SORTED ACCOUNT LIST     ");
     printf("\n=============================");
-
+printf("\033[0m");
     print();
 
     printf("=================================\n");
 }
 
 
-void delete_multiple_accounts(void){
+#include "bank.h"
 
-printf("3la 7sb\n");
+#include "bank.h"
+
+void delete_multiple_accounts(void)
+{
+    int choice;
+    int deleted = 0;
+
+    printf("\n=============================\n");
+    printf("   DELETE MULTIPLE ACCOUNTS  ");
+    printf("\n=============================\n");
+    printf("[1] Delete by creation date\n");
+    printf("[2] Delete inactive accounts (> 3 months)\n");
+    printf("Enter choice: ");
+
+    if (scanf("%d", &choice) != 1) {
+        while(getchar() != '\n');
+        printf("Invalid input.\n");
+        return;
+    }
+
+    switch (choice) {
+
+    case 1: {
+        int year, month;
+
+        printf("Enter account creation year: ");
+        if (scanf("%d", &year) != 1) {
+            while(getchar() != '\n');
+            printf("Invalid year input.\n");
+            return;
+        }
+
+        printf("Enter account creation month (1-12): ");
+        if (scanf("%d", &month) != 1 || month < 1 || month > 12) {
+            while(getchar() != '\n');
+            printf("Invalid month.\n");
+            return;
+        }
+
+        for (int i = 0; i < account_count; ) {
+            if (accounts[i].date_opened.year == year &&
+                accounts[i].date_opened.month == month &&
+                accounts[i].balance == 0) {
+
+                for (int j = i; j < account_count - 1; j++) {
+                    accounts[j] = accounts[j + 1];
+                }
+                account_count--;
+                deleted++;
+            } else {
+                i++;
+            }
+        }
+        break;
+    }
+
+    case 2: {
+        time_t now = time(NULL);
+        struct tm *today = localtime(&now);
+
+        int current_year = today->tm_year + 1900;
+        int current_month = today->tm_mon + 1;
+        int current_total_months = current_year * 12 + current_month;
+
+        for (int i = 0; i < account_count; ) {
+            int acc_total_months = accounts[i].date_opened.year * 12 + accounts[i].date_opened.month;
+
+            if (accounts[i].status == 0 &&
+                accounts[i].balance == 0 &&
+                (current_total_months - acc_total_months) >= 3) {
+
+                for (int j = i; j < account_count - 1; j++) {
+                    accounts[j] = accounts[j + 1];
+                }
+                account_count--;
+                deleted++;
+            } else {
+                i++;
+            }
+        }
+        break;
+    }
+
+    default:
+        printf("Invalid choice.\n");
+        return;
+    }
+
+    if (deleted > 0) {
+        Account *temp = realloc(accounts, account_count * sizeof(Account));
+        if (temp != NULL || account_count == 0) {
+            accounts = temp;
+        }
+        save_accounts();
+
+        printf("\n");
+        printf("\033[32m");
+        printf("=========================================\n");
+        printf("      DELETION SUCCESSFUL!               \n");
+        printf("=========================================\n");
+        printf("\033[0m");
+        printf(" Total Deleted : %d accounts\n", deleted);
+        printf("=========================================\n");
+    } else {
+        printf("\nNo accounts matched the delete conditions.\n");
+        printf("=========================================\n");
+    }
 }

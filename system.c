@@ -23,7 +23,7 @@ int login(void)
     printf("password: ");
     fgets(password,sizeof(password),stdin);
     password[strcspn(password,"\n")]='\0';
-    while(fscanf(userptr,"%s %s",fileUSer,filePass)!=EOF)
+    while(fscanf(userptr,"%39s %39s",fileUSer,filePass)!=EOF)
     {
         if(strcmp(username,fileUSer)==0&&strcmp(password,filePass)==0)
         {
@@ -34,8 +34,9 @@ int login(void)
     }
     fclose(userptr);
     if(found)
-    {
+    {printf("\033[32m");
         printf("\nLogin Successfully welcome %s\n",username);
+        printf("\033[0m");
         return 1;
     }
     else
@@ -228,7 +229,6 @@ void save_accounts(void)
     }
 
     fclose(saveptr);
-    printf("Accounts saved successfully\n");
 }
 
 int validate_account_number(char *str)

@@ -7,11 +7,9 @@
 #include <ctype.h>
 #include <time.h>
 
-
 typedef struct {
     int year, month, day;
 } Date;
-
 
 typedef struct {
     char account_number[50];
